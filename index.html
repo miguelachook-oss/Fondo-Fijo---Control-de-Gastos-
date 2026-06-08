@@ -43,7 +43,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -92,16 +91,54 @@
                 margin: 0 !important;
                 background: white !important;
                 color: black !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                background: white !important;
+                color: black !important;
             }
             .print-break-before {
                 page-break-before: always;
             }
         }
     </style>
+    
+    <script>
+        // Función ultra-resiliente para resolver imágenes en servidores de producción como GitHub Pages
+        function handleImageLoadError(img) {
+            if (!img.dataset.attempt) {
+                img.dataset.attempt = "1";
+            }
+            
+            // Listado optimizado priorizando tu nuevo archivo limpio logo.jpeg
+            const fallbacks = [
+                "logo.jpeg",
+                "logo.png",
+                "logo.jpg",
+                "icono.PNG",
+                "icono.png",
+                "WhatsApp%20Image%202026-06-08%20at%204.46.46%20PM.jpeg"
+            ];
+            
+            let currentAttempt = parseInt(img.dataset.attempt);
+            
+            if (currentAttempt <= fallbacks.length) {
+                let nextPath = fallbacks[currentAttempt - 1];
+                img.dataset.attempt = (currentAttempt + 1).toString();
+                
+                if (img.getAttribute('src') !== nextPath) {
+                    img.src = nextPath;
+                    return;
+                }
+            }
+            
+            // Ocultamos la imagen rota para que el logotipo SVG nativo brille de fondo
+            img.style.display = 'none';
+        }
+    </script>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-tech-950 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col antialiased">
 
-    <!-- Definición global para resplandores y degradados de la marca Chooks Labs -->
+    <!-- DEFINICIÓN GLOBAL DEL LOGOTIPO SVG EN ALTA FIDELIDAD -->
     <svg class="absolute w-0 h-0" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient id="cyberCyan" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -128,48 +165,33 @@
     <header class="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/80 dark:bg-tech-950/80 dark:border-slate-800/80 backdrop-blur-md transition-colors duration-300 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             
-            <!-- Brand Logo utilizando Reconstrucción SVG Nativa -->
+            <!-- Brand Logo utilizando Reconstrucción SVG Nativa y Capa de Imagen de producción -->
             <div class="flex items-center space-x-3">
                 <div class="h-10 w-10 relative rounded-xl border border-brand-500/30 flex items-center justify-center bg-tech-950 shadow-md p-1">
-                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-                        <!-- Swirls de la nube cerebral superior -->
-                        <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonResplandor)">
-                            <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
-                            <path d="M 50 42 C 58 42, 62 38, 59 33 C 56 28, 51 32, 50 35 Z" />
-                            <path d="M 40 33 C 32 30, 28 35, 31 40 C 34 45, 42 42, 40 33 Z" />
-                            <path d="M 60 33 C 68 30, 72 35, 69 40 C 66 45, 58 42, 60 33 Z" />
-                            <path d="M 50 25 C 44 18, 30 20, 35 30" />
-                            <path d="M 50 25 C 56 18, 70 20, 65 30" />
-                            <!-- Cristal Central -->
-                            <path d="M 50 18 L 54 24 H 46 Z" fill="url(#cyberCyan)" stroke-width="0.5"/>
-                        </g>
-                        <!-- Matraz / Beaker -->
-                        <g stroke="url(#cyberCyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonResplandor)">
-                            <path d="M 42 42 H 58" />
-                            <path d="M 45 42 V 48 L 33 72 C 31 76, 33 80, 38 80 H 62 C 67 80, 69 76, 67 72 L 55 48 V 42" />
-                        </g>
-                        <!-- Líquido -->
-                        <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
-                        <!-- Símbolos de código flotando -->
-                        <g stroke="#00f2fe" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9">
-                            <path d="M 47 68 L 44 71 L 47 74" />
-                            <path d="M 53 68 L 56 71 L 53 74" />
-                            <path d="M 51 67 L 49 75" />
-                        </g>
-                        <!-- Pines electrónicos izquierda -->
-                        <path d="M 36 55 H 26" stroke="url(#cyberCyan)" stroke-width="2" stroke-linecap="round" filter="url(#neonResplandor)" />
-                        <circle cx="26" cy="55" r="2" fill="#0b0f19" stroke="#00f2fe" stroke-width="1.5" />
-                        <path d="M 34 62 L 24 67" stroke="url(#cyberCyan)" stroke-width="2" stroke-linecap="round" filter="url(#neonResplandor)" />
-                        <circle cx="24" cy="67" r="2" fill="#0b0f19" stroke="#00f2fe" stroke-width="1.5" />
-                        <!-- Pines electrónicos derecha -->
-                        <path d="M 64 55 L 74 60" stroke="url(#cyberCyan)" stroke-width="2" stroke-linecap="round" filter="url(#neonResplandor)" />
-                        <circle cx="74" cy="60" r="2" fill="#0b0f19" stroke="#00f2fe" stroke-width="1.5" />
-                        <!-- Microchip en base derecha -->
-                        <g filter="url(#neonResplandor)">
-                            <rect x="58" y="68" width="12" height="12" rx="2" fill="#0b0f19" stroke="#00f2fe" stroke-width="1.5" />
-                            <rect x="61" y="71" width="6" height="6" rx="1" fill="#00f2fe" opacity="0.8" />
-                        </g>
-                    </svg>
+                    <!-- Resguardo Vectorial de alta definición (Siempre se renderiza de fondo) -->
+                    <div class="absolute inset-0 p-1 z-0">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full opacity-90">
+                            <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonResplandor)">
+                                <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
+                                <path d="M 50 42 C 58 42, 62 38, 59 33 C 56 28, 51 32, 50 35 Z" />
+                                <path d="M 40 33 C 32 30, 28 35, 31 40 C 34 45, 42 42, 40 33 Z" />
+                                <path d="M 60 33 C 68 30, 72 35, 69 40 C 66 45, 58 42, 60 33 Z" />
+                                <path d="M 50 25 C 44 18, 30 20, 35 30" />
+                                <path d="M 50 25 C 56 18, 70 20, 65 30" />
+                                <path d="M 50 18 L 54 24 H 46 Z" fill="url(#cyberCyan)" stroke-width="0.5"/>
+                            </g>
+                            <g stroke="url(#cyberCyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonResplandor)">
+                                <path d="M 42 42 H 58" />
+                                <path d="M 45 42 V 48 L 33 72 C 31 76, 33 80, 38 80 H 62 C 67 80, 69 76, 67 72 L 55 48 V 42" />
+                            </g>
+                            <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
+                        </svg>
+                    </div>
+                    <!-- Capa de Imagen Real física: Apuntando directamente al archivo simplificado logo.jpeg -->
+                    <img src="logo.jpeg" 
+                         class="absolute inset-0 h-full w-full object-cover z-10 rounded-lg" 
+                         onerror="handleImageLoadError(this)" 
+                         alt="Logo">
                 </div>
                 <div>
                     <span class="text-base font-bold tracking-tight text-slate-900 dark:text-white block leading-tight">Chooks Labs</span>
@@ -222,13 +244,13 @@
 
         <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             
-            <!-- App Icon con la imagen solicitada WhatsApp Image y fallback integrado -->
+            <!-- App Icon con la imagen física y fallback integrado de alta velocidad -->
             <div class="relative inline-block mb-6">
                 <span class="absolute inset-0 rounded-3xl bg-brand-500/20 animate-pulse blur-md"></span>
                 <div class="relative h-24 w-24 rounded-3xl overflow-hidden border-2 border-brand-500/60 shadow-2xl shadow-brand-500/30 bg-tech-950 mx-auto flex items-center justify-center p-2">
-                    <!-- Fallback SVG impecable y exacto en caso de error o sandbox de iframe -->
-                    <div class="absolute inset-0 p-2 flex items-center justify-center z-0">
-                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                    <!-- Resguardo Vectorial SVG de Fondo -->
+                    <div class="absolute inset-0 p-2 z-0">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full opacity-90">
                             <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonResplandor)">
                                 <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
                                 <path d="M 50 42 C 58 42, 62 38, 59 33 C 56 28, 51 32, 50 35 Z" />
@@ -244,8 +266,11 @@
                             <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
                         </svg>
                     </div>
-                    <!-- Imagen real corporativa solicitada -->
-                    <img src="WhatsApp Image 2026-06-08 at 4.46.46 PM.jpeg" class="absolute inset-0 h-full w-full object-cover z-10" onerror="this.style.display='none';" alt="Fondo Fijo Logo">
+                    <!-- Imagen Real: Apuntando directamente al archivo simplificado logo.jpeg -->
+                    <img src="logo.jpeg" 
+                         class="absolute inset-0 h-full w-full object-cover z-10 rounded-2xl" 
+                         onerror="handleImageLoadError(this)" 
+                         alt="Fondo Fijo Logo">
                 </div>
             </div>
 
@@ -272,6 +297,7 @@
 
     <!-- Main Content Grid -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
         <!-- BUSCADOR INTERACTIVO -->
         <div class="mb-8 no-print">
             <div class="bg-white dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -330,8 +356,8 @@
                     <div class="bg-gradient-to-br from-slate-900 to-slate-950 dark:from-tech-950 dark:to-slate-900 rounded-2xl p-5 text-white shadow-lg border border-brand-500/20 relative overflow-hidden">
                         <!-- Circuito Decorativo del Logo de Fondo en Formato SVG -->
                         <div class="absolute -right-12 -bottom-12 opacity-15 w-40 h-40">
-                            <!-- Fallback SVG impecable y exacto en caso de error o sandbox de iframe -->
-                            <div class="absolute inset-0 flex items-center justify-center z-0">
+                            <!-- SVG de Resguardo Vectorial -->
+                            <div class="absolute inset-0 z-0">
                                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
                                     <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
@@ -349,8 +375,11 @@
                                     <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
                                 </svg>
                             </div>
-                            <!-- Imagen real corporativa solicitada -->
-                            <img src="WhatsApp Image 2026-06-08 at 4.46.46 PM.jpeg" class="absolute inset-0 h-full w-full object-cover z-10 opacity-20" onerror="this.style.display='none';" alt="Decoration">
+                            <!-- Imagen Real: Apuntando directamente al archivo simplificado logo.jpeg -->
+                            <img src="logo.jpeg" 
+                                 class="absolute inset-0 h-full w-full object-cover z-10 opacity-20 rounded-full" 
+                                 onerror="handleImageLoadError(this)" 
+                                 alt="Decoration">
                         </div>
                         <h4 class="font-bold text-sm mb-1.5 flex items-center gap-1.5 text-brand-400 relative z-20">
                             <i data-lucide="shield-alert" class="w-4 h-4"></i> Canal Oficial
@@ -742,8 +771,7 @@
                 <div class="md:col-span-2 space-y-4">
                     <div class="flex items-center space-x-3">
                         <div class="h-8 w-8 relative overflow-hidden rounded-lg border border-brand-500/30 flex items-center justify-center bg-tech-950 p-0.5">
-                            <!-- Fallback SVG impecable y exacto en caso de error o sandbox de iframe -->
-                            <div class="absolute inset-0 p-0.5 flex items-center justify-center z-0">
+                            <div class="absolute inset-0 z-0">
                                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
                                     <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                         <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
@@ -761,8 +789,11 @@
                                     <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
                                 </svg>
                             </div>
-                            <!-- Imagen real corporativa solicitada -->
-                            <img src="WhatsApp Image 2026-06-08 at 4.46.46 PM.jpeg" class="absolute inset-0 h-full w-full object-cover z-10" onerror="this.style.display='none';" alt="Fondo Fijo Icono">
+                            <!-- Imagen Real: Apuntando directamente al archivo simplificado logo.jpeg -->
+                            <img src="logo.jpeg" 
+                                 class="absolute inset-0 h-full w-full object-cover z-10 rounded-md" 
+                                 onerror="handleImageLoadError(this)" 
+                                 alt="Fondo Fijo Icono">
                         </div>
                         <span class="text-base font-bold text-slate-900 dark:text-white">Fondo Fijo</span>
                     </div>
