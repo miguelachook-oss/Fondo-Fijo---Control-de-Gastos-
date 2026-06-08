@@ -100,12 +100,20 @@
     
     <!-- ALGORITMO RASTREADOR DE LOGO ULTRA-RESILIENTE -->
     <script>
+        // Guardamos los intentos fallidos para el panel de diagnóstico
+        window.failedImageUrls = [];
+
         function handleLogoFallback(img) {
             if (!img.dataset.attempt) {
                 img.dataset.attempt = "0";
             }
             
-            // Lista exhaustiva de nombres y extensiones que pudieron haberse subido a tu GitHub
+            // Registramos la URL fallida para diagnóstico
+            if (img.src && !window.failedImageUrls.includes(img.src)) {
+                window.failedImageUrls.push(img.src);
+            }
+            
+            // Lista exhaustiva de nombres, extensiones y subcarpetas comunes
             const fallbacks = [
                 "logo.jpeg",
                 "logo.JPEG",
@@ -113,6 +121,18 @@
                 "logo.JPG",
                 "logo.png",
                 "logo.PNG",
+                "./logo.jpeg",
+                "./logo.JPEG",
+                "./logo.jpg",
+                "./logo.png",
+                "assets/logo.jpeg",
+                "assets/logo.JPEG",
+                "assets/logo.jpg",
+                "assets/logo.png",
+                "images/logo.jpeg",
+                "images/logo.JPEG",
+                "images/logo.jpg",
+                "images/logo.png",
                 "logo.jpeg.jpeg",
                 "logo.jpeg.jpg",
                 "logo.png.png"
@@ -134,6 +154,41 @@
             // Si absolutamente ninguna combinación física existe en tu repositorio,
             // ocultamos la imagen rota para que el elegante SVG vectorial de fondo brille sin errores.
             img.style.display = 'none';
+        }
+
+        // Lógica de activación de la consola de diagnóstico secreta (5 clics)
+        let clickCount = 0;
+        function triggerDiagnostics() {
+            clickCount++;
+            if (clickCount >= 5) {
+                clickCount = 0;
+                showDiagnosticsModal();
+            }
+            // Resetear conteo tras 3 segundos de inactividad
+            setTimeout(() => { clickCount = 0; }, 3000);
+        }
+
+        function showDiagnosticsModal() {
+            const modal = document.getElementById('diagnosticsModal');
+            if (modal) {
+                // Generar reporte de URLs probadas
+                const urlList = document.getElementById('diagnosticsUrlList');
+                if (urlList) {
+                    urlList.innerHTML = window.failedImageUrls.map(url => 
+                        `<li class="text-red-400 font-mono text-[10px] break-all mb-1">❌ ${url}</li>`
+                    ).join('') || '<li class="text-green-400 text-xs">Ninguna imagen ha fallado aún.</li>';
+                }
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function closeDiagnosticsModal() {
+            const modal = document.getElementById('diagnosticsModal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
         }
     </script>
 </head>
@@ -167,7 +222,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             
             <!-- Brand Logo utilizando Reconstrucción SVG Nativa y Capa de Imagen de producción -->
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 select-none">
                 <div class="h-10 w-10 relative rounded-xl border border-brand-500/30 flex items-center justify-center bg-tech-950 shadow-md p-1">
                     <!-- Resguardo Vectorial de alta definición (Siempre se renderiza de fondo) -->
                     <div class="absolute inset-0 p-1 z-0">
@@ -194,7 +249,8 @@
                          onerror="handleLogoFallback(this)" 
                          alt="Logo">
                 </div>
-                <div>
+                <!-- Al hacer clic 5 veces aquí se despliega el panel de soporte para la imagen -->
+                <div onclick="triggerDiagnostics()" class="cursor-pointer">
                     <span class="text-base font-bold tracking-tight text-slate-900 dark:text-white block leading-tight">Chooks Labs</span>
                 </div>
             </div>
@@ -524,7 +580,7 @@
                                 <p>
                                     Los usuarios que decidan realizar la compra única o suscripción de la versión Premium disfrutarán de una experiencia 100% libre de anuncios.
                                 </p>
-                                <div class="bg-brand-50 dark:bg-brand-950/20 border-l-4 border-brand-500 p-4 rounded-r-xl">
+                                <div class="bg-brand-50 dark:bg-brand-950/20 border-l-4 border-brand-500/100 p-4 rounded-r-xl">
                                     <p class="text-sm font-semibold text-brand-900 dark:text-brand-300 flex items-center gap-1.5"><i data-lucide="credit-card" class="w-4 h-4"></i> Transacción Certificada y Segura:</p>
                                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
                                         El procesamiento del cobro de la versión Premium se realiza de manera segura y exclusiva a través del sistema de facturación de <strong class="text-slate-900 dark:text-white">Google Play Billing</strong>. Chooks Labs no almacena ni procesa información de sus tarjetas de crédito o datos bancarios.
@@ -674,7 +730,7 @@
                                 <p>
                                     La Aplicación se proporciona "tal cual" y "según disponibilidad". Chooks Labs no ofrece garantías sobre la infalibilidad absoluta del software o que el servicio sea ininterrumpido.
                                 </p>
-                                <div class="bg-brand-50 dark:bg-brand-950/20 border-l-4 border-brand-500 p-4 rounded-r-xl">
+                                <div class="bg-brand-50 dark:bg-brand-950/20 border-l-4 border-brand-500/100 p-4 rounded-r-xl">
                                     <p class="text-sm font-semibold text-brand-900 dark:text-brand-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-brand-500"></i> Propósito Organizacional:</p>
                                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
                                         El uso que usted haga de las plantillas y balances financieros exportados es únicamente con fines organizacionales informativos, no constituyendo asesoramiento contable, fiscal o auditoría formal respaldada por entidades estatales.
@@ -763,6 +819,43 @@
             </section>
         </div>
     </main>
+
+    <!-- DIAGNOSTICS SECRET MODAL (Oculto por defecto, se activa con 5 clics en Chooks Labs) -->
+    <div id="diagnosticsModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 no-print">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 text-white shadow-2xl relative">
+            <button onclick="closeDiagnosticsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="flex items-center gap-2 mb-3 text-cyan-400">
+                <i data-lucide="terminal" class="w-5 h-5 animate-pulse"></i>
+                <h3 class="text-base font-bold">Consola de Diagnóstico de Imagen</h3>
+            </div>
+            <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                Esta consola te ayuda a entender por qué el navegador no puede encontrar el logotipo físico en internet. A continuación verás las rutas de imagen que han fallado:
+            </p>
+            <ul id="diagnosticsUrlList" class="bg-slate-950 p-3 rounded-xl max-h-36 overflow-y-auto mb-4 border border-slate-800">
+                <!-- Se inyecta por JavaScript -->
+            </ul>
+            <div class="space-y-2.5 text-xs text-slate-400 leading-relaxed border-t border-slate-800/80 pt-4">
+                <p class="font-semibold text-slate-200">🔍 Acciones correctivas recomendadas:</p>
+                <div class="flex gap-2">
+                    <span class="text-cyan-400 font-bold">1.</span>
+                    <p>Asegúrate de que el archivo se llame <strong class="text-white">logo.jpeg</strong> (todo en minúsculas) y esté ubicado en la raíz del repositorio de GitHub junto al index.html.</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="text-cyan-400 font-bold">2.</span>
+                    <p>Si Windows te ocultó la extensión real, renombra tu archivo a solo <strong class="text-white">logo</strong> y Windows se encargará de asignarle la extensión correcta.</p>
+                </div>
+                <div class="flex gap-2">
+                    <span class="text-cyan-400 font-bold">3.</span>
+                    <p>Recuerda presionar el botón verde <strong class="text-white">Commit changes</strong> en GitHub para confirmar la subida del archivo.</p>
+                </div>
+            </div>
+            <button onclick="closeDiagnosticsModal()" class="mt-5 w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2 rounded-xl transition text-xs">
+                Entendido
+            </button>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-tech-950 text-slate-500 dark:text-slate-400 text-sm py-12 transition-colors duration-300 no-print">
