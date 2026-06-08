@@ -91,10 +91,6 @@
                 margin: 0 !important;
                 background: white !important;
                 color: black !important;
-                padding: 0 !important;
-                margin: 0 !important;
-                background: white !important;
-                color: black !important;
             }
             .print-break-before {
                 page-break-before: always;
@@ -102,36 +98,41 @@
         }
     </style>
     
+    <!-- ALGORITMO RASTREADOR DE LOGO ULTRA-RESILIENTE -->
     <script>
-        // Función ultra-resiliente para resolver imágenes en servidores de producción como GitHub Pages
-        function handleImageLoadError(img) {
+        function handleLogoFallback(img) {
             if (!img.dataset.attempt) {
-                img.dataset.attempt = "1";
+                img.dataset.attempt = "0";
             }
             
-            // Listado optimizado priorizando tu nuevo archivo limpio logo.jpeg
+            // Lista exhaustiva de nombres y extensiones que pudieron haberse subido a tu GitHub
             const fallbacks = [
                 "logo.jpeg",
-                "logo.png",
+                "logo.JPEG",
                 "logo.jpg",
-                "icono.PNG",
-                "icono.png",
-                "WhatsApp%20Image%202026-06-08%20at%204.46.46%20PM.jpeg"
+                "logo.JPG",
+                "logo.png",
+                "logo.PNG",
+                "logo.jpeg.jpeg",
+                "logo.jpeg.jpg",
+                "logo.png.png"
             ];
             
-            let currentAttempt = parseInt(img.dataset.attempt);
+            let attempt = parseInt(img.dataset.attempt);
             
-            if (currentAttempt <= fallbacks.length) {
-                let nextPath = fallbacks[currentAttempt - 1];
-                img.dataset.attempt = (currentAttempt + 1).toString();
+            if (attempt < fallbacks.length) {
+                const nextSrc = fallbacks[attempt];
+                img.dataset.attempt = (attempt + 1).toString();
                 
-                if (img.getAttribute('src') !== nextPath) {
-                    img.src = nextPath;
+                // Evitamos bucles infinitos si el origen ya coincide
+                if (img.getAttribute('src') !== nextSrc) {
+                    img.src = nextSrc;
                     return;
                 }
             }
             
-            // Ocultamos la imagen rota para que el logotipo SVG nativo brille de fondo
+            // Si absolutamente ninguna combinación física existe en tu repositorio,
+            // ocultamos la imagen rota para que el elegante SVG vectorial de fondo brille sin errores.
             img.style.display = 'none';
         }
     </script>
@@ -187,10 +188,10 @@
                             <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
                         </svg>
                     </div>
-                    <!-- Capa de Imagen Real física: Apuntando directamente al archivo simplificado logo.jpeg -->
+                    <!-- Capa de Imagen Real física: Buscador inteligente de extensiones -->
                     <img src="logo.jpeg" 
                          class="absolute inset-0 h-full w-full object-cover z-10 rounded-lg" 
-                         onerror="handleImageLoadError(this)" 
+                         onerror="handleLogoFallback(this)" 
                          alt="Logo">
                 </div>
                 <div>
@@ -266,10 +267,10 @@
                             <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
                         </svg>
                     </div>
-                    <!-- Imagen Real: Apuntando directamente al archivo simplificado logo.jpeg -->
+                    <!-- Imagen Real: Buscador dinámico de formatos en producción -->
                     <img src="logo.jpeg" 
                          class="absolute inset-0 h-full w-full object-cover z-10 rounded-2xl" 
-                         onerror="handleImageLoadError(this)" 
+                         onerror="handleLogoFallback(this)" 
                          alt="Fondo Fijo Logo">
                 </div>
             </div>
@@ -375,10 +376,10 @@
                                     <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
                                 </svg>
                             </div>
-                            <!-- Imagen Real: Apuntando directamente al archivo simplificado logo.jpeg -->
+                            <!-- Imagen Real: Buscador de respaldo de marcas -->
                             <img src="logo.jpeg" 
                                  class="absolute inset-0 h-full w-full object-cover z-10 opacity-20 rounded-full" 
-                                 onerror="handleImageLoadError(this)" 
+                                 onerror="handleLogoFallback(this)" 
                                  alt="Decoration">
                         </div>
                         <h4 class="font-bold text-sm mb-1.5 flex items-center gap-1.5 text-brand-400 relative z-20">
@@ -395,7 +396,7 @@
             </aside>
 
             <section class="lg:col-span-3 print-full-width">
-                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 lg:p-10 shadow-sm space-y-12 transition-colors duration-300">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 lg:p-10 shadow-sm space-y-12 transition-colors duration-300">
                     
                     <!-- DOCUMENTO 1: POLÍTICA DE PRIVACIDAD -->
                     <div id="docContent-privacy" class="space-y-12 block">
@@ -603,7 +604,7 @@
                             </div>
                             <div class="space-y-4 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
                                 <p>
-                                    Todo el código fuente de la Aplicación, la marca <strong class="text-slate-900 dark:text-white">"Fondo Fijo"</strong>, los logotipos, los diseños de interfaz visual (UI/UX), las plantillas de exportación automática a Excel elegantemente estructuradas, la marca <strong class="text-slate-900 dark:text-white">Chooks Labs</strong> y cualquier otro material relacionado son propiedad intelectual exclusiva de <strong class="text-slate-900 dark:text-white">Miguel Mojica</strong>.
+                                    Todo el código fuente de la Aplicación, la marca <strong class="text-slate-900 dark:text-white">"Fondo Fijo"</strong>, los logotipos, los designs de interfaz visual (UI/UX), las plantillas de exportación automática a Excel elegantemente estructuradas, la marca <strong class="text-slate-900 dark:text-white">Chooks Labs</strong> y cualquier otro material relacionado son propiedad intelectual exclusiva de <strong class="text-slate-900 dark:text-white">Miguel Mojica</strong>.
                                 </p>
                                 <div class="bg-amber-50 dark:bg-amber-950/10 border-l-4 border-amber-500 p-4 rounded-r-xl text-amber-900 dark:text-amber-300 text-sm">
                                     <p class="font-bold flex items-center gap-1.5"><i data-lucide="shield-alert" class="w-4 h-4 flex-shrink-0 text-amber-500"></i> Cláusula Restrictiva:</p>
@@ -770,30 +771,23 @@
                 <!-- Branding column -->
                 <div class="md:col-span-2 space-y-4">
                     <div class="flex items-center space-x-3">
-                        <div class="h-8 w-8 relative overflow-hidden rounded-lg border border-brand-500/30 flex items-center justify-center bg-tech-950 p-0.5">
-                            <div class="absolute inset-0 z-0">
-                                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-                                    <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
-                                        <path d="M 50 42 C 58 42, 62 38, 59 33 C 56 28, 51 32, 50 35 Z" />
-                                        <path d="M 40 33 C 32 30, 28 35, 31 40 C 34 45, 42 42, 40 33 Z" />
-                                        <path d="M 60 33 C 68 30, 72 35, 69 40 C 66 45, 58 42, 60 33 Z" />
-                                        <path d="M 50 25 C 44 18, 30 20, 35 30" />
-                                        <path d="M 50 25 C 56 18, 70 20, 65 30" />
-                                        <path d="M 50 18 L 54 24 H 46 Z" fill="url(#cyberCyan)" />
-                                    </g>
-                                    <g stroke="url(#cyberCyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M 42 42 H 58" />
-                                        <path d="M 45 42 V 48 L 33 72 C 31 76, 33 80, 38 80 H 62 C 67 80, 69 76, 67 72 L 55 48 V 42" />
-                                    </g>
-                                    <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
-                                </svg>
-                            </div>
-                            <!-- Imagen Real: Apuntando directamente al archivo simplificado logo.jpeg -->
-                            <img src="logo.jpeg" 
-                                 class="absolute inset-0 h-full w-full object-cover z-10 rounded-md" 
-                                 onerror="handleImageLoadError(this)" 
-                                 alt="Fondo Fijo Icono">
+                        <div class="h-8 w-8 relative rounded-lg border border-brand-500/30 flex items-center justify-center bg-tech-950 p-0.5">
+                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                                <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
+                                    <path d="M 50 42 C 58 42, 62 38, 59 33 C 56 28, 51 32, 50 35 Z" />
+                                    <path d="M 40 33 C 32 30, 28 35, 31 40 C 34 45, 42 42, 40 33 Z" />
+                                    <path d="M 60 33 C 68 30, 72 35, 69 40 C 66 45, 58 42, 60 33 Z" />
+                                    <path d="M 50 25 C 44 18, 30 20, 35 30" />
+                                    <path d="M 50 25 C 56 18, 70 20, 65 30" />
+                                    <path d="M 50 18 L 54 24 H 46 Z" fill="url(#cyberCyan)" />
+                                </g>
+                                <g stroke="url(#cyberCyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M 42 42 H 58" />
+                                    <path d="M 45 42 V 48 L 33 72 C 31 76, 33 80, 38 80 H 62 C 67 80, 69 76, 67 72 L 55 48 V 42" />
+                                </g>
+                                <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
+                            </svg>
                         </div>
                         <span class="text-base font-bold text-slate-900 dark:text-white">Fondo Fijo</span>
                     </div>
