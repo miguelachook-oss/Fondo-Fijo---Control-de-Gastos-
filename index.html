@@ -17,8 +17,8 @@
                             200: '#a5f3fc',
                             300: '#67e8f9',
                             400: '#22d3ee',
-                            500: '#06b6d4', // Cian eléctrico exacto al logo
-                            600: '#0891b2', // Azul profundo brillante
+                            500: '#06b6d4',
+                            600: '#0891b2',
                             700: '#0e7490',
                             800: '#155e75',
                             900: '#164e63',
@@ -27,7 +27,7 @@
                         tech: {
                             50: '#f8fafc',
                             900: '#0f172a',
-                            950: '#0b0f19' // Fondo profundo exacto al logo
+                            950: '#0b0f19'
                         }
                     },
                     fontFamily: {
@@ -47,7 +47,6 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-        /* Custom scrollbar para estética premium */
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
@@ -71,7 +70,6 @@
         .dark ::-webkit-scrollbar-thumb:hover {
             background: #334155;
         }
-        /* Resaltados de búsqueda adaptados al color de Chooks Labs */
         .highlight {
             background-color: rgba(6, 182, 212, 0.3);
             border-bottom: 2px solid #06b6d4;
@@ -97,165 +95,23 @@
             }
         }
     </style>
-    
-    <!-- ALGORITMO RASTREADOR DE LOGO ULTRA-RESILIENTE -->
-    <script>
-        // Guardamos los intentos fallidos para el panel de diagnóstico
-        window.failedImageUrls = [];
-
-        function handleLogoFallback(img) {
-            if (!img.dataset.attempt) {
-                img.dataset.attempt = "0";
-            }
-            
-            // Registramos la URL fallida para diagnóstico
-            if (img.src && !window.failedImageUrls.includes(img.src)) {
-                window.failedImageUrls.push(img.src);
-            }
-            
-            // Lista exhaustiva de nombres, extensiones y subcarpetas comunes
-            const fallbacks = [
-                "logo.jpeg",
-                "logo.JPEG",
-                "logo.jpg",
-                "logo.JPG",
-                "logo.png",
-                "logo.PNG",
-                "./logo.jpeg",
-                "./logo.JPEG",
-                "./logo.jpg",
-                "./logo.png",
-                "assets/logo.jpeg",
-                "assets/logo.JPEG",
-                "assets/logo.jpg",
-                "assets/logo.png",
-                "images/logo.jpeg",
-                "images/logo.JPEG",
-                "images/logo.jpg",
-                "images/logo.png",
-                "logo.jpeg.jpeg",
-                "logo.jpeg.jpg",
-                "logo.png.png"
-            ];
-            
-            let attempt = parseInt(img.dataset.attempt);
-            
-            if (attempt < fallbacks.length) {
-                const nextSrc = fallbacks[attempt];
-                img.dataset.attempt = (attempt + 1).toString();
-                
-                // Evitamos bucles infinitos si el origen ya coincide
-                if (img.getAttribute('src') !== nextSrc) {
-                    img.src = nextSrc;
-                    return;
-                }
-            }
-            
-            // Si absolutamente ninguna combinación física existe en tu repositorio,
-            // ocultamos la imagen rota para que el elegante SVG vectorial de fondo brille sin errores.
-            img.style.display = 'none';
-        }
-
-        // Lógica de activación de la consola de diagnóstico secreta (5 clics)
-        let clickCount = 0;
-        function triggerDiagnostics() {
-            clickCount++;
-            if (clickCount >= 5) {
-                clickCount = 0;
-                showDiagnosticsModal();
-            }
-            // Resetear conteo tras 3 segundos de inactividad
-            setTimeout(() => { clickCount = 0; }, 3000);
-        }
-
-        function showDiagnosticsModal() {
-            const modal = document.getElementById('diagnosticsModal');
-            if (modal) {
-                // Generar reporte de URLs probadas
-                const urlList = document.getElementById('diagnosticsUrlList');
-                if (urlList) {
-                    urlList.innerHTML = window.failedImageUrls.map(url => 
-                        `<li class="text-red-400 font-mono text-[10px] break-all mb-1">❌ ${url}</li>`
-                    ).join('') || '<li class="text-green-400 text-xs">Ninguna imagen ha fallado aún.</li>';
-                }
-                modal.classList.remove('hidden');
-                modal.classList.add('flex');
-            }
-        }
-
-        function closeDiagnosticsModal() {
-            const modal = document.getElementById('diagnosticsModal');
-            if (modal) {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }
-        }
-    </script>
 </head>
 <body class="bg-slate-50 text-slate-800 dark:bg-tech-950 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col antialiased">
-
-    <!-- DEFINICIÓN GLOBAL DEL LOGOTIPO SVG EN ALTA FIDELIDAD -->
-    <svg class="absolute w-0 h-0" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="cyberCyan" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#00f2fe" />
-                <stop offset="50%" stop-color="#06b6d4" />
-                <stop offset="100%" stop-color="#3b82f6" />
-            </linearGradient>
-            <linearGradient id="cyberLiquid" x1="0%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" stop-color="#0052d4" stop-opacity="0.9" />
-                <stop offset="60%" stop-color="#4364f7" stop-opacity="0.6" />
-                <stop offset="100%" stop-color="#00f2fe" stop-opacity="0.3" />
-            </linearGradient>
-            <filter id="neonResplandor" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="5" result="blur" />
-                <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                </feMerge>
-            </filter>
-        </defs>
-    </svg>
 
     <!-- HEADER -->
     <header class="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/80 dark:bg-tech-950/80 dark:border-slate-800/80 backdrop-blur-md transition-colors duration-300 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             
-            <!-- Brand Logo utilizando Reconstrucción SVG Nativa y Capa de Imagen de producción -->
-            <div class="flex items-center space-x-3 select-none">
-                <div class="h-10 w-10 relative rounded-xl border border-brand-500/30 flex items-center justify-center bg-tech-950 shadow-md p-1">
-                    <!-- Resguardo Vectorial de alta definición (Siempre se renderiza de fondo) -->
-                    <div class="absolute inset-0 p-1 z-0">
-                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full opacity-90">
-                            <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonResplandor)">
-                                <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
-                                <path d="M 50 42 C 58 42, 62 38, 59 33 C 56 28, 51 32, 50 35 Z" />
-                                <path d="M 40 33 C 32 30, 28 35, 31 40 C 34 45, 42 42, 40 33 Z" />
-                                <path d="M 60 33 C 68 30, 72 35, 69 40 C 66 45, 58 42, 60 33 Z" />
-                                <path d="M 50 25 C 44 18, 30 20, 35 30" />
-                                <path d="M 50 25 C 56 18, 70 20, 65 30" />
-                                <path d="M 50 18 L 54 24 H 46 Z" fill="url(#cyberCyan)" stroke-width="0.5"/>
-                            </g>
-                            <g stroke="url(#cyberCyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonResplandor)">
-                                <path d="M 42 42 H 58" />
-                                <path d="M 45 42 V 48 L 33 72 C 31 76, 33 80, 38 80 H 62 C 67 80, 69 76, 67 72 L 55 48 V 42" />
-                            </g>
-                            <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
-                        </svg>
-                    </div>
-                    <!-- Capa de Imagen Real física: Buscador inteligente de extensiones -->
-                    <img src="logo.jpeg" 
-                         class="absolute inset-0 h-full w-full object-cover z-10 rounded-lg" 
-                         onerror="handleLogoFallback(this)" 
-                         alt="Logo">
+            <div class="flex items-center space-x-3">
+                <div class="h-10 w-10 relative overflow-hidden rounded-xl border border-brand-500/30 flex items-center justify-center bg-tech-950 shadow-md">
+                    <!-- LOGO PRINCIPAL -->
+                    <img src="LOGO.jpeg" class="absolute inset-0 h-full w-full object-cover z-10" alt="Chooks Labs Icono" onerror="handleLogoError(this)">
                 </div>
-                <!-- Al hacer clic 5 veces aquí se despliega el panel de soporte para la imagen -->
-                <div onclick="triggerDiagnostics()" class="cursor-pointer">
+                <div>
                     <span class="text-base font-bold tracking-tight text-slate-900 dark:text-white block leading-tight">Chooks Labs</span>
                 </div>
             </div>
 
-            <!-- Centralized Switcher (Desktop) -->
             <div class="hidden md:flex items-center space-x-1 bg-slate-100 dark:bg-slate-900 p-1 rounded-xl border dark:border-slate-800">
                 <button onclick="switchTab('privacy')" id="tabBtn-privacy" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm">
                     Política de Privacidad
@@ -265,15 +121,11 @@
                 </button>
             </div>
 
-            <!-- Header Controls -->
             <div class="flex items-center space-x-2 sm:space-x-4">
-                <!-- Theme Toggle Button -->
                 <button id="themeToggle" class="p-2.5 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition" aria-label="Cambiar Tema">
                     <i data-lucide="sun" class="h-5 w-5 hidden dark:block"></i>
                     <i data-lucide="moon" class="h-5 w-5 dark:hidden"></i>
                 </button>
-
-                <!-- Print Button -->
                 <button onclick="window.print()" class="hidden sm:flex items-center space-x-2 px-3.5 py-2 text-sm font-medium rounded-lg text-slate-700 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 transition">
                     <i data-lucide="printer" class="h-4 w-4"></i>
                     <span>Imprimir / PDF</span>
@@ -296,38 +148,15 @@
 
     <!-- Hero / Banner Section -->
     <div class="relative bg-gradient-to-b from-brand-50 to-slate-50 dark:from-brand-950/10 dark:to-tech-950 py-16 border-b border-slate-100 dark:border-slate-800/50 transition-colors duration-300 overflow-hidden">
-        <!-- Retícula decorativa sutil -->
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#0891b20a_1px,transparent_1px),linear-gradient(to_bottom,#0891b20a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
 
         <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             
-            <!-- App Icon con la imagen física y fallback integrado de alta velocidad -->
             <div class="relative inline-block mb-6">
                 <span class="absolute inset-0 rounded-3xl bg-brand-500/20 animate-pulse blur-md"></span>
-                <div class="relative h-24 w-24 rounded-3xl overflow-hidden border-2 border-brand-500/60 shadow-2xl shadow-brand-500/30 bg-tech-950 mx-auto flex items-center justify-center p-2">
-                    <!-- Resguardo Vectorial SVG de Fondo -->
-                    <div class="absolute inset-0 p-2 z-0">
-                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full opacity-90">
-                            <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonResplandor)">
-                                <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
-                                <path d="M 50 42 C 58 42, 62 38, 59 33 C 56 28, 51 32, 50 35 Z" />
-                                <path d="M 40 33 C 32 30, 28 35, 31 40 C 34 45, 42 42, 40 33 Z" />
-                                <path d="M 60 33 C 68 30, 72 35, 69 40 C 66 45, 58 42, 60 33 Z" />
-                                <path d="M 50 25 C 44 18, 30 20, 35 30" />
-                                <path d="M 50 25 C 56 18, 70 20, 65 30" />
-                            </g>
-                            <g stroke="url(#cyberCyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#neonResplandor)">
-                                <path d="M 42 42 H 58" />
-                                <path d="M 45 42 V 48 L 33 72 C 31 76, 33 80, 38 80 H 62 C 67 80, 69 76, 67 72 L 55 48 V 42" />
-                            </g>
-                            <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
-                        </svg>
-                    </div>
-                    <!-- Imagen Real: Buscador dinámico de formatos en producción -->
-                    <img src="logo.jpeg" 
-                         class="absolute inset-0 h-full w-full object-cover z-10 rounded-2xl" 
-                         onerror="handleLogoFallback(this)" 
-                         alt="Fondo Fijo Logo">
+                <div class="relative h-24 w-24 rounded-3xl overflow-hidden border-2 border-brand-500 shadow-2xl shadow-brand-500/30 bg-tech-950 mx-auto flex items-center justify-center">
+                    <!-- LOGO PRINCIPAL -->
+                    <img src="LOGO.jpeg" class="absolute inset-0 h-full w-full object-cover z-10" alt="Chooks Labs Icono" onerror="handleLogoError(this)">
                 </div>
             </div>
 
@@ -354,7 +183,6 @@
 
     <!-- Main Content Grid -->
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        
         <!-- BUSCADOR INTERACTIVO -->
         <div class="mb-8 no-print">
             <div class="bg-white dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -380,8 +208,6 @@
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             <aside class="lg:col-span-1 space-y-4 no-print">
                 <div class="sticky top-24 max-h-[calc(100vh-10rem)] overflow-y-auto pr-2 space-y-4">
-                    
-                    <!-- TABLA DE CONTENIDOS -->
                     <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm">
                         <h3 class="text-xs font-bold text-slate-950 dark:text-slate-200 uppercase tracking-wider mb-4 flex items-center justify-between">
                             <span>Tabla de Contenidos</span>
@@ -411,32 +237,9 @@
 
                     <!-- CARD DEL ESTUDIO CHOOKS LABS -->
                     <div class="bg-gradient-to-br from-slate-900 to-slate-950 dark:from-tech-950 dark:to-slate-900 rounded-2xl p-5 text-white shadow-lg border border-brand-500/20 relative overflow-hidden">
-                        <!-- Circuito Decorativo del Logo de Fondo en Formato SVG -->
                         <div class="absolute -right-12 -bottom-12 opacity-15 w-40 h-40">
-                            <!-- SVG de Resguardo Vectorial -->
-                            <div class="absolute inset-0 z-0">
-                                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-                                    <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
-                                        <path d="M 50 42 C 58 42, 62 38, 59 33 C 56 28, 51 32, 50 35 Z" />
-                                        <path d="M 40 33 C 32 30, 28 35, 31 40 C 34 45, 42 42, 40 33 Z" />
-                                        <path d="M 60 33 C 68 30, 72 35, 69 40 C 66 45, 58 42, 60 33 Z" />
-                                        <path d="M 50 25 C 44 18, 30 20, 35 30" />
-                                        <path d="M 50 25 C 56 18, 70 20, 65 30" />
-                                        <path d="M 50 18 L 54 24 H 46 Z" fill="url(#cyberCyan)" />
-                                    </g>
-                                    <g stroke="url(#cyberCyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M 42 42 H 58" />
-                                        <path d="M 45 42 V 48 L 33 72 C 31 76, 33 80, 38 80 H 62 C 67 80, 69 76, 67 72 L 55 48 V 42" />
-                                    </g>
-                                    <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
-                                </svg>
-                            </div>
-                            <!-- Imagen Real: Buscador de respaldo de marcas -->
-                            <img src="logo.jpeg" 
-                                 class="absolute inset-0 h-full w-full object-cover z-10 opacity-20 rounded-full" 
-                                 onerror="handleLogoFallback(this)" 
-                                 alt="Decoration">
+                            <!-- LOGO PRINCIPAL (Background) -->
+                            <img src="LOGO.jpeg" class="w-full h-full object-cover rounded-full z-10" alt="Decoration" onerror="handleLogoError(this)">
                         </div>
                         <h4 class="font-bold text-sm mb-1.5 flex items-center gap-1.5 text-brand-400 relative z-20">
                             <i data-lucide="shield-alert" class="w-4 h-4"></i> Canal Oficial
@@ -452,7 +255,7 @@
             </aside>
 
             <section class="lg:col-span-3 print-full-width">
-                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 lg:p-10 shadow-sm space-y-12 transition-colors duration-300">
+                <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 lg:p-10 shadow-sm space-y-12 transition-colors duration-300">
                     
                     <!-- DOCUMENTO 1: POLÍTICA DE PRIVACIDAD -->
                     <div id="docContent-privacy" class="space-y-12 block">
@@ -580,7 +383,7 @@
                                 <p>
                                     Los usuarios que decidan realizar la compra única o suscripción de la versión Premium disfrutarán de una experiencia 100% libre de anuncios.
                                 </p>
-                                <div class="bg-brand-50 dark:bg-brand-950/20 border-l-4 border-brand-500/100 p-4 rounded-r-xl">
+                                <div class="bg-brand-50 dark:bg-brand-950/20 border-l-4 border-brand-500 p-4 rounded-r-xl">
                                     <p class="text-sm font-semibold text-brand-900 dark:text-brand-300 flex items-center gap-1.5"><i data-lucide="credit-card" class="w-4 h-4"></i> Transacción Certificada y Segura:</p>
                                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
                                         El procesamiento del cobro de la versión Premium se realiza de manera segura y exclusiva a través del sistema de facturación de <strong class="text-slate-900 dark:text-white">Google Play Billing</strong>. Chooks Labs no almacena ni procesa información de sus tarjetas de crédito o datos bancarios.
@@ -660,7 +463,7 @@
                             </div>
                             <div class="space-y-4 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed">
                                 <p>
-                                    Todo el código fuente de la Aplicación, la marca <strong class="text-slate-900 dark:text-white">"Fondo Fijo"</strong>, los logotipos, los designs de interfaz visual (UI/UX), las plantillas de exportación automática a Excel elegantemente estructuradas, la marca <strong class="text-slate-900 dark:text-white">Chooks Labs</strong> y cualquier otro material relacionado son propiedad intelectual exclusiva de <strong class="text-slate-900 dark:text-white">Miguel Mojica</strong>.
+                                    Todo el código fuente de la Aplicación, la marca <strong class="text-slate-900 dark:text-white">"Fondo Fijo"</strong>, los logotipos, los diseños de interfaz visual (UI/UX), las plantillas de exportación automática a Excel elegantemente estructuradas, la marca <strong class="text-slate-900 dark:text-white">Chooks Labs</strong> y cualquier otro material relacionado son propiedad intelectual exclusiva de <strong class="text-slate-900 dark:text-white">Miguel Mojica</strong>.
                                 </p>
                                 <div class="bg-amber-50 dark:bg-amber-950/10 border-l-4 border-amber-500 p-4 rounded-r-xl text-amber-900 dark:text-amber-300 text-sm">
                                     <p class="font-bold flex items-center gap-1.5"><i data-lucide="shield-alert" class="w-4 h-4 flex-shrink-0 text-amber-500"></i> Cláusula Restrictiva:</p>
@@ -730,7 +533,7 @@
                                 <p>
                                     La Aplicación se proporciona "tal cual" y "según disponibilidad". Chooks Labs no ofrece garantías sobre la infalibilidad absoluta del software o que el servicio sea ininterrumpido.
                                 </p>
-                                <div class="bg-brand-50 dark:bg-brand-950/20 border-l-4 border-brand-500/100 p-4 rounded-r-xl">
+                                <div class="bg-brand-50 dark:bg-brand-950/20 border-l-4 border-brand-500 p-4 rounded-r-xl">
                                     <p class="text-sm font-semibold text-brand-900 dark:text-brand-300 flex items-center gap-1.5"><i data-lucide="info" class="w-4 h-4 text-brand-500"></i> Propósito Organizacional:</p>
                                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
                                         El uso que usted haga de las plantillas y balances financieros exportados es únicamente con fines organizacionales informativos, no constituyendo asesoramiento contable, fiscal o auditoría formal respaldada por entidades estatales.
@@ -801,7 +604,6 @@
                                     </button>
                                 </div>
 
-                                <!-- SUCCESS RECEIPT (HIDDEN BY DEFAULT) -->
                                 <div id="receiptBox" class="p-4 bg-brand-50 dark:bg-brand-950/20 border border-brand-200 dark:border-brand-800/50 rounded-2xl hidden transition-all duration-300 mt-4">
                                     <div class="flex items-center justify-between border-b border-brand-100 dark:border-brand-900/50 pb-2 mb-3">
                                         <span class="text-xs font-bold text-brand-700 dark:text-brand-400 uppercase tracking-wider flex items-center gap-1"><i data-lucide="stamp" class="w-4 h-4"></i> Firma Registrada</span>
@@ -820,67 +622,15 @@
         </div>
     </main>
 
-    <!-- DIAGNOSTICS SECRET MODAL (Oculto por defecto, se activa con 5 clics en Chooks Labs) -->
-    <div id="diagnosticsModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 no-print">
-        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-6 text-white shadow-2xl relative">
-            <button onclick="closeDiagnosticsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">
-                <i data-lucide="x" class="w-5 h-5"></i>
-            </button>
-            <div class="flex items-center gap-2 mb-3 text-cyan-400">
-                <i data-lucide="terminal" class="w-5 h-5 animate-pulse"></i>
-                <h3 class="text-base font-bold">Consola de Diagnóstico de Imagen</h3>
-            </div>
-            <p class="text-xs text-slate-300 mb-4 leading-relaxed">
-                Esta consola te ayuda a entender por qué el navegador no puede encontrar el logotipo físico en internet. A continuación verás las rutas de imagen que han fallado:
-            </p>
-            <ul id="diagnosticsUrlList" class="bg-slate-950 p-3 rounded-xl max-h-36 overflow-y-auto mb-4 border border-slate-800">
-                <!-- Se inyecta por JavaScript -->
-            </ul>
-            <div class="space-y-2.5 text-xs text-slate-400 leading-relaxed border-t border-slate-800/80 pt-4">
-                <p class="font-semibold text-slate-200">🔍 Acciones correctivas recomendadas:</p>
-                <div class="flex gap-2">
-                    <span class="text-cyan-400 font-bold">1.</span>
-                    <p>Asegúrate de que el archivo se llame <strong class="text-white">logo.jpeg</strong> (todo en minúsculas) y esté ubicado en la raíz del repositorio de GitHub junto al index.html.</p>
-                </div>
-                <div class="flex gap-2">
-                    <span class="text-cyan-400 font-bold">2.</span>
-                    <p>Si Windows te ocultó la extensión real, renombra tu archivo a solo <strong class="text-white">logo</strong> y Windows se encargará de asignarle la extensión correcta.</p>
-                </div>
-                <div class="flex gap-2">
-                    <span class="text-cyan-400 font-bold">3.</span>
-                    <p>Recuerda presionar el botón verde <strong class="text-white">Commit changes</strong> en GitHub para confirmar la subida del archivo.</p>
-                </div>
-            </div>
-            <button onclick="closeDiagnosticsModal()" class="mt-5 w-full bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold py-2 rounded-xl transition text-xs">
-                Entendido
-            </button>
-        </div>
-    </div>
-
     <!-- FOOTER -->
     <footer class="mt-16 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-tech-950 text-slate-500 dark:text-slate-400 text-sm py-12 transition-colors duration-300 no-print">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <!-- Branding column -->
                 <div class="md:col-span-2 space-y-4">
                     <div class="flex items-center space-x-3">
-                        <div class="h-8 w-8 relative rounded-lg border border-brand-500/30 flex items-center justify-center bg-tech-950 p-0.5">
-                            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-                                <g stroke="url(#cyberCyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M 50 42 C 42 42, 38 38, 41 33 C 44 28, 49 32, 50 35 Z" />
-                                    <path d="M 50 42 C 58 42, 62 38, 59 33 C 56 28, 51 32, 50 35 Z" />
-                                    <path d="M 40 33 C 32 30, 28 35, 31 40 C 34 45, 42 42, 40 33 Z" />
-                                    <path d="M 60 33 C 68 30, 72 35, 69 40 C 66 45, 58 42, 60 33 Z" />
-                                    <path d="M 50 25 C 44 18, 30 20, 35 30" />
-                                    <path d="M 50 25 C 56 18, 70 20, 65 30" />
-                                    <path d="M 50 18 L 54 24 H 46 Z" fill="url(#cyberCyan)" />
-                                </g>
-                                <g stroke="url(#cyberCyan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M 42 42 H 58" />
-                                    <path d="M 45 42 V 48 L 33 72 C 31 76, 33 80, 38 80 H 62 C 67 80, 69 76, 67 72 L 55 48 V 42" />
-                                </g>
-                                <path d="M 36 65 Q 50 62, 64 65 L 65.5 72 C 66.5 76, 65 78.5, 62 78.5 H 38 C 35 78.5, 33.5 76, 34.5 72 Z" fill="url(#cyberLiquid)" />
-                            </svg>
+                        <div class="h-8 w-8 relative overflow-hidden rounded-lg border border-brand-500/30 flex items-center justify-center bg-tech-950 p-0.5">
+                            <!-- LOGO PRINCIPAL -->
+                            <img src="LOGO.jpeg" class="absolute inset-0 h-full w-full object-cover z-10" alt="Chooks Labs Icono" onerror="handleLogoError(this)">
                         </div>
                         <span class="text-base font-bold text-slate-900 dark:text-white">Fondo Fijo</span>
                     </div>
@@ -889,7 +639,6 @@
                     </p>
                 </div>
                 
-                <!-- Quick Navigation -->
                 <div>
                     <h5 class="text-xs font-bold text-slate-950 dark:text-white uppercase tracking-wider mb-3">Documentos</h5>
                     <ul class="space-y-2 text-xs">
@@ -898,7 +647,6 @@
                     </ul>
                 </div>
 
-                <!-- Contact & Brand info -->
                 <div>
                     <h5 class="text-xs font-bold text-slate-950 dark:text-white uppercase tracking-wider mb-3">Contacto de Marca</h5>
                     <ul class="space-y-2 text-xs">
@@ -920,12 +668,9 @@
         </div>
     </footer>
 
-    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Estado Activo de la Interfaz (privacy | terms)
         let activeTab = 'privacy';
 
-        // Elementos del DOM
         const heroTitle = document.getElementById('heroTitle');
         const heroSubtitle = document.getElementById('heroSubtitle');
         
@@ -941,7 +686,6 @@
         const mobileTabBtnPrivacy = document.getElementById('mobileTabBtn-privacy');
         const mobileTabBtnTerms = document.getElementById('mobileTabBtn-terms');
 
-        // Motor Dinámico de Intercambio de Pestañas (Tabs Engine)
         function switchTab(tab) {
             activeTab = tab;
             resetSearch();
@@ -960,11 +704,9 @@
                 tocTerms.classList.add('hidden');
                 tocTerms.classList.remove('space-y-1');
 
-                // Botones Desktop
                 tabBtnPrivacy.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm";
                 tabBtnTerms.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
 
-                // Botones Móviles
                 mobileTabBtnPrivacy.className = "flex-1 py-2 text-center text-xs font-bold rounded-md bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm transition";
                 mobileTabBtnTerms.className = "flex-1 py-2 text-center text-xs font-bold rounded-md text-slate-600 dark:text-slate-400 transition";
             } else {
@@ -981,28 +723,21 @@
                 tocPrivacy.classList.add('hidden');
                 tocPrivacy.classList.remove('space-y-1');
 
-                // Botones Desktop
                 tabBtnTerms.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm";
                 tabBtnPrivacy.className = "px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg transition-all duration-200 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
 
-                // Botones Móviles
                 mobileTabBtnTerms.className = "flex-1 py-2 text-center text-xs font-bold rounded-md bg-white dark:bg-slate-800 text-slate-900 dark:text-white shadow-sm transition";
                 mobileTabBtnPrivacy.className = "flex-1 py-2 text-center text-xs font-bold rounded-md text-slate-600 dark:text-slate-400 transition";
             }
-
-            // Scroll suave inicial
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Sistema de Toggle de Color del Tema (Modo Claro / Oscuro)
         const themeToggleBtn = document.getElementById('themeToggle');
-        
         if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
-
         themeToggleBtn.addEventListener('click', () => {
             if (document.documentElement.classList.contains('dark')) {
                 document.documentElement.classList.remove('dark');
@@ -1013,7 +748,6 @@
             }
         });
 
-        // Highlight Dinámico en Tabla de Contenidos por Scroll (Scroll Spy)
         window.addEventListener('scroll', () => {
             const currentDoc = activeTab === 'privacy' ? docPrivacy : docTerms;
             const sections = currentDoc.querySelectorAll('article[id]');
@@ -1037,7 +771,6 @@
             });
         });
 
-        // Motor de Búsqueda y Resaltado de Palabras
         const searchInput = document.getElementById('searchInput');
         const clearSearchBtn = document.getElementById('clearSearch');
         const searchCounter = document.getElementById('searchCounter');
@@ -1045,7 +778,6 @@
         const privacyArticles = docPrivacy.querySelectorAll('article');
         const termsArticles = docTerms.querySelectorAll('article');
 
-        // Caché de contenido HTML de los documentos para restaurar al limpiar búsquedas
         const originalPrivacyContent = [];
         privacyArticles.forEach((art, index) => {
             originalPrivacyContent[index] = art.innerHTML;
@@ -1058,16 +790,13 @@
 
         searchInput.addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
-            
             if (query === '') {
                 resetSearch();
                 return;
             }
-
             clearSearchBtn.classList.remove('hidden');
             searchCounter.classList.remove('hidden');
             let totalMatches = 0;
-
             const activeArticles = activeTab === 'privacy' ? privacyArticles : termsArticles;
             const originalContents = activeTab === 'privacy' ? originalPrivacyContent : originalTermsContent;
 
@@ -1106,11 +835,9 @@
             lucide.createIcons();
         }
 
-        // Algoritmo de filtrado recursivo para nodos de texto (evita dañar tags HTML como href/src)
         function highlightHTML(html, regex) {
             const container = document.createElement('div');
             container.innerHTML = html;
-            
             function walk(node) {
                 if (node.nodeType === 3) {
                     if (node.nodeValue.match(regex)) {
@@ -1127,7 +854,6 @@
                     }
                 }
             }
-            
             const children = Array.from(container.childNodes);
             for (let i = 0; i < children.length; i++) {
                 walk(children[i]);
@@ -1135,7 +861,6 @@
             return container.innerHTML;
         }
 
-        // Lógica de Widget de Aceptación Interactiva (Generación de Firma)
         const acceptCheck = document.getElementById('acceptCheck');
         const personalUse = document.getElementById('personalUse');
         const generateReceiptBtn = document.getElementById('generateReceipt');
@@ -1177,7 +902,18 @@
             checkAcceptanceStatus();
         });
 
-        // Inicializar Lucide Icons
+        function handleLogoError(img) {
+            const fallbacks = ['logo.jpeg', 'logo.jpg', 'icono.jpg'];
+            let currentAttempt = parseInt(img.dataset.attempt || '0', 10);
+            
+            if (currentAttempt < fallbacks.length) {
+                img.src = fallbacks[currentAttempt];
+                img.dataset.attempt = currentAttempt + 1;
+            } else {
+                img.style.display = 'none';
+            }
+        }
+
         lucide.createIcons();
     </script>
 </body>
